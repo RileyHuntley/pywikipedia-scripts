@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright (C) 2012 Legoktm
+Copyright (C) 2012 Legoktm, Riley Huntley
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the "Software"),
@@ -26,30 +26,22 @@ try:
 except ImportError:
     import wikipedia as pywikibot
 
-regex_skip = """\{\{(Template:)?([Ss]andbox heading|[Pp]LTLA \(SH\)
-|[Pp]lease leave this line alone \(SB\)
-|[Pp]lease leave this line alone \(Sandbox heading\)
-|[Pp]lease leave this line alone \(sandbox heading\)
-|[Pp]lease leave this line alone \(sandbox heading\)/noedit
-|[Pp]lease leave this line alone \(sandbox talk heading\)
-|[Pp]lease leave this line alone \(sandbox talk heading\)/noedit
-|[Ss]andbox header \(do not remove\)
-|[Ss]andbox heading/noedit)\}\}"""
+regex_skip = """\{\{(Template:)?(Wikivoyage:Graffiti wall/top)\}\}"""
 regex_skip = regex_skip.replace('\n', '')
 REGEX = re.compile(regex_skip, flags=re.IGNORECASE)
 
-HEADER = "{{Sandbox heading}} <!-- Please leave this line alone! -->\n"
+HEADER = "{{Wikivoyage:Graffiti wall/top}}<!--\n*          Welcome to the Graffiti wall!            *\n*          Please leave this part alone             *\n*    Feel free to try your editing skills below     *\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ -->\n"
 
 
 def clean(box):
     text = box.get()
     if not REGEX.findall(text):
         newtext = HEADER + text
-        box.put(newtext, "Robot: Reinserting sandbox header")
+        box.put(newtext, "Reinserting sandbox header")
 
 def main():
     site = pywikibot.getSite()
-    generator = [pywikibot.Page(site, "Wikipedia:Sandbox")]
+    generator = [pywikibot.Page(site, "Wikivoyage:Graffiti wall")]
     for sandbox in generator:
         clean(sandbox)
 
